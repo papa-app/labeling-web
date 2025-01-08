@@ -24,7 +24,7 @@ const App = () => {
   // Google Maps loading hook
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyAHTeOQqQC_Lj9uYK5pOZy_CcTkPuD58a8",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   });
 
   useEffect(() => {
