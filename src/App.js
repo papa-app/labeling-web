@@ -10,7 +10,7 @@ import { variedades } from "./categorias";
 import "./App.css";
 
 const App = () => {
-  const [location, setLocation] = useState(null);
+  const [center, setCenter] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
   const [drawingPoly, setDrawingPoly] = useState(false);
@@ -24,7 +24,7 @@ const App = () => {
   // Google Maps loading hook
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: "AIzaSyDNiT9EmehnlkovSu5tPofwUcZAmtBbgQ0",
   });
 
   useEffect(() => {
@@ -32,11 +32,9 @@ const App = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            setLocation({
-              coords: {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-              },
+            setCenter({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
             });
           },
           (error) => {
@@ -130,7 +128,7 @@ const App = () => {
     );
   }
 
-  if (!isLoaded || !location) {
+  if (!isLoaded || !center) {
     return (
       <div className="container">
         <p className="message">Cargando mapa...</p>
@@ -142,10 +140,7 @@ const App = () => {
     <div className="container">
       <GoogleMap
         mapContainerClassName="map"
-        center={{
-          lat: location.coords.latitude,
-          lng: location.coords.longitude,
-        }}
+        center={center}
         zoom={15}
         onClick={handleMapClick}
         options={{ mapTypeId: "hybrid" }}
