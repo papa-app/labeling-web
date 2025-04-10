@@ -71,7 +71,7 @@ const App = () => {
     }
   };
 
-  const submitLabel = (coords, variedad, edadMin, edadMax) => {
+  const submitLabel = async (coords, variedad, edadMin, edadMax) => {
     if (coords.length < 3) {
       setModalMsg(
         "Tiene que seleccionar mas puntos para delimitar correctamente un area"
@@ -84,11 +84,17 @@ const App = () => {
       coord.latitude,
       coord.longitude,
     ]);
+    const elevation = await getElevation(
+      coords[0].latitude,
+      coords[0].longitude
+    );
+
     const requestBody = {
       poly: adaptedCoords,
       variedad,
       edadMin: parseInt(edadMin),
       edadMax: parseInt(edadMax),
+      elevacion: elevation,
     };
 
     fetch("https://papapp-labeling.onrender.com/labeling", {
